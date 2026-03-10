@@ -85,6 +85,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
+        // 分数归零
+        score = 0;
+        
         // 生成两个随机方块
         addRandomTile();
         addRandomTile();
@@ -92,6 +95,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // 渲染
         renderGrid();
         updateScoreDisplay();
+    }
+    
+    // 重置游戏（供新游戏按钮调用）
+    function resetGame() {
+        initGame();
+    }
+    
+    // 绑定新游戏按钮点击事件
+    const newGameBtn = document.getElementById('newGameBtn');
+    if (newGameBtn) {
+        newGameBtn.addEventListener('click', resetGame);
     }
     
     // 启动游戏

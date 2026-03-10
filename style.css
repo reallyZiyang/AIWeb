@@ -52,6 +52,24 @@ body {
     color: var(--text-dark);
 }
 
+/* 新游戏按钮 */
+.new-game-btn {
+    background-color: #8f7a66;
+    color: #f9f6f2;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-right: 15px;
+}
+
+.new-game-btn:hover {
+    background-color: #7f6a56;
+}
+
 /* 分数容器 */
 .score-container {
     display: flex;
