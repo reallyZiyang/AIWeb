@@ -183,9 +183,9 @@ body {
     gap: var(--gap-size);
 }
 
-/* 兼容旧版浏览器 - 网格行 */
+/* 网格布局 */
 .grid-row {
-    display: none;
+    display: contents;
 }
 
 /* 网格单元格 */
