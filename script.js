@@ -96,4 +96,114 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 启动游戏
     initGame();
+
+    // 键盘事件监听
+    document.addEventListener('keydown', function(event) {
+        const key = event.key;
+        let moved = false;
+
+        if (key === 'ArrowLeft') {
+            moved = moveLeft();
+        } else if (key === 'ArrowRight') {
+            moved = moveRight();
+        } else if (key === 'ArrowUp') {
+            moved = moveUp();
+        } else if (key === 'ArrowDown') {
+            moved = moveDown();
+        }
+
+        if (moved) {
+            addRandomTile();
+            renderGrid();
+            updateScoreDisplay();
+        }
+    });
+
+    // 左移：每行方块靠左
+    function moveLeft() {
+        let moved = false;
+        for (let row = 0; row < gridSize; row++) {
+            // 提取非零值
+            let tiles = grid[row].filter(val => val !== 0);
+            
+            // 压缩到左边
+            for (let col = 0; col < gridSize; col++) {
+                const newValue = col < tiles.length ? tiles[col] : 0;
+                if (grid[row][col] !== newValue) {
+                    grid[row][col] = newValue;
+                    moved = true;
+                }
+            }
+        }
+        return moved;
+    }
+
+    // 右移：每行方块靠右
+    function moveRight() {
+        let moved = false;
+        for (let row = 0; row < gridSize; row++) {
+            // 提取非零值
+            let tiles = grid[row].filter(val => val !== 0);
+            
+            // 从右边开始填充
+            for (let col = gridSize - 1; col >= 0; col--) {
+                const tileIndex = tiles.length - 1 - (gridSize - 1 - col);
+                const newValue = tileIndex >= 0 ? tiles[tileIndex] : 0;
+                if (grid[row][col] !== newValue) {
+                    grid[row][col] = newValue;
+                    moved = true;
+                }
+            }
+        }
+        return moved;
+    }
+
+    // 上移：每列方块靠上
+    function moveUp() {
+        let moved = false;
+        for (let col = 0; col < gridSize; col++) {
+            // 提取列中的非零值
+            let tiles = [];
+            for (let row = 0; row < gridSize; row++) {
+                if (grid[row][col] !== 0) {
+                    tiles.push(grid[row][col]);
+                }
+            }
+            
+            // 压缩到上边
+            for (let row = 0; row < gridSize; row++) {
+                const newValue = row < tiles.length ? tiles[row] : 0;
+                if (grid[row][col] !== newValue) {
+                    grid[row][col] = newValue;
+                    moved = true;
+                }
+            }
+        }
+        return moved;
+    }
+
+    // 下移：每列方块靠下
+    function moveDown() {
+        let moved = false;
+        for (let col = 0; col < gridSize; col++) {
+            // 提取列中的非零值
+            let tiles = [];
+            for (let row = 0; row < gridSize; row++) {
+                if (grid[row][col] !== 0) {
+                    tiles.push(grid[row][col]);
+                }
+            }
+            
+            // 压缩到下边
+            for (let row = gridSize - 1; row >= 0; row--) {
+                const tileIndex = tiles.length - 1 - (gridSize - 1 - row);
+                const newValue = tileIndex >= 0 ? tiles[tileIndex] : 0;
+                if (grid[row][col] !== newValue) {
+                    grid[row][col] = newValue;
+                    moved = true;
+                }
+            }
+        }
+        return moved;
+    }
 });
