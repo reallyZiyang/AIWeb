@@ -257,6 +257,66 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // 触摸滑动事件监听
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const SWIPE_THRESHOLD = 30; // 滑动阈值，防止误触
+
+    document.addEventListener('touchstart', function(event) {
+        if (event.touches.length > 0) {
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchend', function(event) {
+        if (event.changedTouches.length > 0) {
+            const touchEndX = event.changedTouches[0].clientX;
+            const touchEndY = event.changedTouches[0].clientY;
+            
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            
+            let moved = false;
+            
+            // 判断是水平滑动还是垂直滑动
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                // 水平滑动
+                if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+                    if (deltaX > 0) {
+                        // 向右滑动
+                        moved = moveRight();
+                    } else {
+                        // 向左滑动
+                        moved = moveLeft();
+                    }
+                }
+            } else {
+                // 垂直滑动
+                if (Math.abs(deltaY) > SWIPE_THRESHOLD) {
+                    if (deltaY > 0) {
+                        // 向下滑动
+                        moved = moveDown();
+                    } else {
+                        // 向上滑动
+                        moved = moveUp();
+                    }
+                }
+            }
+
+            if (moved) {
+                addRandomTile();
+                renderGrid();
+                updateScoreDisplay();
+                
+                // 检查游戏是否结束
+                if (checkGameOver()) {
+                    showGameOver();
+                }
+            }
+        }
+    }, { passive: true });
+
     // 检查游戏是否结束
     function checkGameOver() {
         // 检查是否有空位
