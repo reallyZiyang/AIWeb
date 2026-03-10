@@ -126,11 +126,24 @@ document.addEventListener('DOMContentLoaded', function() {
             // 提取非零值
             let tiles = grid[row].filter(val => val !== 0);
             
+            // 合并相邻的相同数字
+            for (let i = 0; i < tiles.length - 1; i++) {
+                if (tiles[i] === tiles[i + 1]) {
+                    tiles[i] *= 2;
+                    score += tiles[i];
+                    tiles.splice(i + 1, 1);
+                }
+            }
+            
+            // 补齐到 gridSize 长度
+            while (tiles.length < gridSize) {
+                tiles.push(0);
+            }
+            
             // 压缩到左边
             for (let col = 0; col < gridSize; col++) {
-                const newValue = col < tiles.length ? tiles[col] : 0;
-                if (grid[row][col] !== newValue) {
-                    grid[row][col] = newValue;
+                if (grid[row][col] !== tiles[col]) {
+                    grid[row][col] = tiles[col];
                     moved = true;
                 }
             }
@@ -144,6 +157,15 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let row = 0; row < gridSize; row++) {
             // 提取非零值
             let tiles = grid[row].filter(val => val !== 0);
+            
+            // 合并相邻的相同数字（从左到右合并）
+            for (let i = 0; i < tiles.length - 1; i++) {
+                if (tiles[i] === tiles[i + 1]) {
+                    tiles[i] *= 2;
+                    score += tiles[i];
+                    tiles.splice(i + 1, 1);
+                }
+            }
             
             // 从右边开始填充
             for (let col = gridSize - 1; col >= 0; col--) {
@@ -170,6 +192,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
+            // 合并相邻的相同数字
+            for (let i = 0; i < tiles.length - 1; i++) {
+                if (tiles[i] === tiles[i + 1]) {
+                    tiles[i] *= 2;
+                    score += tiles[i];
+                    tiles.splice(i + 1, 1);
+                }
+            }
+            
             // 压缩到上边
             for (let row = 0; row < gridSize; row++) {
                 const newValue = row < tiles.length ? tiles[row] : 0;
@@ -191,6 +222,15 @@ document.addEventListener('DOMContentLoaded', function() {
             for (let row = 0; row < gridSize; row++) {
                 if (grid[row][col] !== 0) {
                     tiles.push(grid[row][col]);
+                }
+            }
+            
+            // 合并相邻的相同数字
+            for (let i = 0; i < tiles.length - 1; i++) {
+                if (tiles[i] === tiles[i + 1]) {
+                    tiles[i] *= 2;
+                    score += tiles[i];
+                    tiles.splice(i + 1, 1);
                 }
             }
             
