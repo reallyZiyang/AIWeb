@@ -165,3 +165,64 @@ body {
 .tile {
     animation: appear 200ms ease-in-out;
 }
+
+/* 不同数字的方块样式 */
+.tile-2 {
+    background-color: #eee4da;
+    color: #776e65;
+}
+
+.tile-4 {
+    background-color: #ede0c8;
+    color: #776e65;
+}
+
+.tile-8 {
+    background-color: #f2b179;
+    color: #f9f6f2;
+}
+
+.tile-16 {
+    background-color: #f59563;
+    color: #f9f6f2;
+}
+
+.tile-32 {
+    background-color: #f67c5f;
+    color: #f9f6f2;
+}
+
+.tile-64 {
+    background-color: #f65e3b;
+    color: #f9f6f2;
+}
+
+.tile-128 {
+    background-color: #edcf72;
+    color: #f9f6f2;
+    font-size: 36px;
+}
+
+.tile-256 {
+    background-color: #edcc61;
+    color: #f9f6f2;
+    font-size: 36px;
+}
+
+.tile-512 {
+    background-color: #edc850;
+    color: #f9f6f2;
+    font-size: 36px;
+}
+
+.tile-1024 {
+    background-color: #edc53f;
+    color: #f9f6f2;
+    font-size: 30px;
+}
+
+.tile-2048 {
+    background-color: #edc22e;
+    color: #f9f6f2;
+    font-size: 30px;
+}
