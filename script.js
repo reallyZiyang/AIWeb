@@ -103,6 +103,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const gridSize = 4;
     const grid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(0));
     
+    // 记录每个位置的上一个值，用于判断是否是新增或合并
+    const prevGrid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(0));
+    
     // 获取所有格子元素
     const cells = document.querySelectorAll('.grid-cell');
     
@@ -156,8 +159,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const index = row * gridSize + col;
                 const cell = cells[index];
                 const value = grid[row][col];
+                const prevValue = prevGrid[row][col];
                 
-                // 清除之前的方块类
+                // 清除之前的方块类（保留基础类）
                 cell.className = 'grid-cell';
                 cell.textContent = '';
                 
@@ -165,7 +169,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     cell.textContent = value;
                     cell.classList.add('tile-' + value);
                     cell.classList.add('tile');
+                    
+                    // 判断是新增方块还是合并方块
+                    if (prevValue === 0 && value !== prevValue) {
+                        // 新方块出现
+                        cell.classList.add('tile-new');
+                        // 动画结束后移除类
+                        setTimeout(() => {
+                            cell.classList.remove('tile-new');
+                        }, 200);
+                    } else if (prevValue !== 0 && value !== prevValue && value === prevValue * 2) {
+                        // 合并方块
+                        cell.classList.add('tile-merged');
+                        // 动画结束后移除类
+                        setTimeout(() => {
+                            cell.classList.remove('tile-merged');
+                        }, 200);
+                    }
                 }
+                
+                // 更新prevGrid
+                prevGrid[row][col] = value;
             }
         }
     }
@@ -176,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let row = 0; row < gridSize; row++) {
             for (let col = 0; col < gridSize; col++) {
                 grid[row][col] = 0;
+                prevGrid[row][col] = 0;
             }
         }
         

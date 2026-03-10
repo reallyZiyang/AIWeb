@@ -247,9 +247,45 @@ body {
     }
 }
 
-/* 数字方块样式 */
+/* 方块出现时的淡入动画 */
+@keyframes tile-new {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 方块合并时的缩放动画 */
+@keyframes tile-merged {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 数字方块样式 - 基础过渡 */
 .tile {
     animation: appear 200ms ease-in-out;
+    transition: transform 150ms ease-in-out, left 150ms ease-in-out, top 150ms ease-in-out;
+}
+
+/* 新方块出现动画 */
+.tile-new {
+    animation: tile-new 200ms ease-in-out;
+}
+
+/* 合并方块动画 */
+.tile-merged {
+    animation: tile-merged 200ms ease-in-out;
 }
 
 /* 不同数字的方块样式 */
