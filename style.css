@@ -1,0 +1,167 @@
+/* 2048 游戏样式表 */
+
+/* CSS 变量定义 */
+:root {
+    --bg-color: #faf8ef;
+    --grid-bg-color: #bbada0;
+    --empty-cell-color: #cdc1b4;
+    --text-dark: #776e65;
+    --text-light: #f9f6f2;
+    --cell-size: 100px;
+    --gap-size: 15px;
+    --border-radius: 6px;
+    --font-family: 'Clear Sans', 'Roboto', Arial, sans-serif;
+}
+
+/* 重置样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 页面主体 */
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* 游戏容器 */
+.game-container {
+    max-width: 500px;
+    width: 100%;
+}
+
+/* 游戏头部 */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.game-title {
+    font-size: 60px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* 分数容器 */
+.score-container {
+    display: flex;
+    gap: 10px;
+}
+
+.score-box {
+    background: var(--grid-bg-color);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    min-width: 80px;
+}
+
+.score-label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.score-value {
+    display: block;
+    font-size: 25px;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+/* 游戏棋盘 */
+.game-board {
+    background-color: var(--grid-bg-color);
+    border-radius: var(--border-radius);
+    padding: var(--gap-size);
+    position: relative;
+}
+
+/* 网格布局 */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, var(--cell-size));
+    grid-template-rows: repeat(4, var(--cell-size));
+    gap: var(--gap-size);
+}
+
+/* 兼容旧版浏览器 - 网格行 */
+.grid-row {
+    display: none;
+}
+
+/* 网格单元格 */
+.grid-cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    background-color: var(--empty-cell-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* 游戏底部 */
+.game-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.game-footer p {
+    font-size: 16px;
+    color: var(--text-dark);
+    opacity: 0.7;
+}
+
+/* 响应式设计 - 小屏幕 */
+@media (max-width: 520px) {
+    :root {
+        --cell-size: 70px;
+        --gap-size: 10px;
+    }
+    
+    .game-title {
+        font-size: 40px;
+    }
+    
+    .score-box {
+        padding: 8px 15px;
+        min-width: 60px;
+    }
+    
+    .score-value {
+        font-size: 20px;
+    }
+}
+
+/* 动画效果 - 数字出现 */
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 数字方块样式 */
+.tile {
+    animation: appear 200ms ease-in-out;
+}
