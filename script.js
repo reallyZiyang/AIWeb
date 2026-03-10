@@ -1,9 +1,103 @@
 // 2048 游戏初始化脚本
 
+// localStorage 键名
+const STORAGE_KEY_BEST_SCORE = '2048-best-score';
+const STORAGE_KEY_LEADERBOARD = '2048-leaderboard';
+
+// 获取最高分
+function getBestScore() {
+    const bestScore = localStorage.getItem(STORAGE_KEY_BEST_SCORE);
+    return bestScore ? parseInt(bestScore, 10) : 0;
+}
+
+// 保存最高分
+function saveBestScore(newScore) {
+    const currentBest = getBestScore();
+    if (newScore > currentBest) {
+        localStorage.setItem(STORAGE_KEY_BEST_SCORE, newScore.toString());
+        return true;
+    }
+    return false;
+}
+
+// 更新最高分显示
+function updateBestScoreDisplay() {
+    const bestScoreElement = document.querySelector('.best-score-value');
+    if (bestScoreElement) {
+        bestScoreElement.textContent = getBestScore();
+    }
+}
+
+// 获取排行榜
+function getLeaderboard() {
+    const leaderboardJson = localStorage.getItem(STORAGE_KEY_LEADERBOARD);
+    if (leaderboardJson) {
+        try {
+            return JSON.parse(leaderboardJson);
+        } catch (e) {
+            return [];
+        }
+    }
+    return [];
+}
+
+// 保存排行榜
+function saveLeaderboard(leaderboard) {
+    localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(leaderboard));
+}
+
+// 更新排行榜（游戏结束时调用）
+function updateLeaderboard(newScore) {
+    if (newScore === 0) return;
+    
+    const leaderboard = getLeaderboard();
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    
+    // 添加新分数
+    leaderboard.push({
+        score: newScore,
+        date: dateStr
+    });
+    
+    // 按分数降序排列
+    leaderboard.sort((a, b) => b.score - a.score);
+    
+    // 只保留 Top 5
+    const top5 = leaderboard.slice(0, 5);
+    
+    saveLeaderboard(top5);
+    renderLeaderboard();
+}
+
+// 渲染排行榜
+function renderLeaderboard() {
+    const listElement = document.getElementById('leaderboardList');
+    if (!listElement) return;
+    
+    const leaderboard = getLeaderboard();
+    
+    if (leaderboard.length === 0) {
+        listElement.innerHTML = '<li class="leaderboard-empty">暂无记录</li>';
+        return;
+    }
+    
+    listElement.innerHTML = leaderboard.map((item, index) => {
+        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
+        return `<li class="leaderboard-item">
+            <span class="leaderboard-rank">${medal}</span>
+            <span class="leaderboard-score">${item.score}</span>
+            <span class="leaderboard-date">${item.date}</span>
+        </li>`;
+    }).join('');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化分数为 0
     let score = 0;
     updateScoreDisplay();
+    updateBestScoreDisplay();
+    renderLeaderboard();
     
     // 4x4 游戏网格
     const gridSize = 4;
@@ -169,6 +263,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 显示游戏结束弹窗
     function showGameOver() {
+        // 更新最高分和排行榜
+        saveBestScore(score);
+        updateBestScoreDisplay();
+        updateLeaderboard(score);
+        
         // 检查弹窗是否已存在
         let overlay = document.querySelector('.game-over-overlay');
         if (overlay) {

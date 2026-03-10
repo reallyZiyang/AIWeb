@@ -99,6 +99,74 @@ body {
     color: var(--text-light);
 }
 
+.best-score-box .best-score-value {
+    display: block;
+    font-size: 25px;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+/* 排行榜区域 */
+.leaderboard-section {
+    margin-top: 20px;
+    background-color: var(--grid-bg-color);
+    border-radius: var(--border-radius);
+    padding: 15px;
+}
+
+.leaderboard-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(238, 228, 218, 0.35);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    color: var(--text-light);
+}
+
+.leaderboard-item:last-child {
+    margin-bottom: 0;
+}
+
+.leaderboard-rank {
+    font-weight: 700;
+    font-size: 18px;
+    min-width: 40px;
+}
+
+.leaderboard-score {
+    font-weight: 700;
+    font-size: 18px;
+    color: #f9f6f2;
+}
+
+.leaderboard-date {
+    font-size: 14px;
+    color: rgba(249, 246, 242, 0.6);
+}
+
+.leaderboard-empty {
+    text-align: center;
+    color: rgba(249, 246, 242, 0.5);
+    padding: 20px;
+    font-style: italic;
+}
+
 /* 游戏棋盘 */
 .game-board {
     background-color: var(--grid-bg-color);
