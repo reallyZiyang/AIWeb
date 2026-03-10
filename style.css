@@ -226,3 +226,54 @@ body {
     color: #f9f6f2;
     font-size: 30px;
 }
+
+/* 游戏结束弹窗样式 */
+.game-over-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(238, 228, 218, 0.73);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.game-over-box {
+    background-color: #bbada0;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.game-over-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #776e65;
+    margin-bottom: 20px;
+}
+
+.game-over-score {
+    font-size: 24px;
+    color: #776e65;
+    margin-bottom: 30px;
+}
+
+.game-over-restart {
+    background-color: #8f7a66;
+    color: #f9f6f2;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.game-over-restart:hover {
+    background-color: #7f6a56;
+}

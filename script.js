@@ -116,8 +116,81 @@ document.addEventListener('DOMContentLoaded', function() {
             addRandomTile();
             renderGrid();
             updateScoreDisplay();
+            
+            // 检查游戏是否结束
+            if (checkGameOver()) {
+                showGameOver();
+            }
         }
     });
+
+    // 检查游戏是否结束
+    function checkGameOver() {
+        // 检查是否有空位
+        const emptyPositions = getEmptyPositions();
+        if (emptyPositions.length > 0) {
+            return false;
+        }
+        
+        // 检查是否有可合并的相邻块
+        for (let row = 0; row < gridSize; row++) {
+            for (let col = 0; col < gridSize; col++) {
+                const current = grid[row][col];
+                
+                // 检查右边
+                if (col < gridSize - 1 && grid[row][col + 1] === current) {
+                    return false;
+                }
+                
+                // 检查下边
+                if (row < gridSize - 1 && grid[row + 1][col] === current) {
+                    return false;
+                }
+            }
+        }
+        
+        // 没有空位且没有可合并的相邻块
+        return true;
+    }
+
+    // 显示游戏结束弹窗
+    function showGameOver() {
+        // 检查弹窗是否已存在
+        let overlay = document.querySelector('.game-over-overlay');
+        if (overlay) {
+            return;
+        }
+        
+        // 创建遮罩层
+        overlay = document.createElement('div');
+        overlay.className = 'game-over-overlay';
+        
+        // 创建弹窗内容
+        const gameOverBox = document.createElement('div');
+        gameOverBox.className = 'game-over-box';
+        
+        const title = document.createElement('h2');
+        title.className = 'game-over-title';
+        title.textContent = '游戏结束!';
+        
+        const finalScore = document.createElement('p');
+        finalScore.className = 'game-over-score';
+        finalScore.textContent = '最终得分: ' + score;
+        
+        const restartBtn = document.createElement('button');
+        restartBtn.className = 'game-over-restart';
+        restartBtn.textContent = '再来一局';
+        restartBtn.onclick = function() {
+            initGame();
+            overlay.remove();
+        };
+        
+        gameOverBox.appendChild(title);
+        gameOverBox.appendChild(finalScore);
+        gameOverBox.appendChild(restartBtn);
+        overlay.appendChild(gameOverBox);
+        document.body.appendChild(overlay);
+    }
 
     // 左移：每行方块靠左
     function moveLeft() {
