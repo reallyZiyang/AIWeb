@@ -161,7 +161,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const value = grid[row][col];
                 const prevValue = prevGrid[row][col];
                 
-                // 清除之前的方块类（保留基础类）
+                // 清除之前的方块类（保留基础类），但保留动画类如果正在动画中
+                const isAnimating = cell.classList.contains('tile-new') || cell.classList.contains('tile-merged');
                 cell.className = 'grid-cell';
                 cell.textContent = '';
                 
@@ -170,21 +171,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     cell.classList.add('tile-' + value);
                     cell.classList.add('tile');
                     
-                    // 判断是新增方块还是合并方块
-                    if (prevValue === 0 && value !== prevValue) {
-                        // 新方块出现
-                        cell.classList.add('tile-new');
-                        // 动画结束后移除类
-                        setTimeout(() => {
-                            cell.classList.remove('tile-new');
-                        }, 200);
-                    } else if (prevValue !== 0 && value !== prevValue && value === prevValue * 2) {
-                        // 合并方块
-                        cell.classList.add('tile-merged');
-                        // 动画结束后移除类
-                        setTimeout(() => {
-                            cell.classList.remove('tile-merged');
-                        }, 200);
+                    // 如果正在动画中，不重复添加动画类
+                    if (!isAnimating) {
+                        // 判断是新增方块还是合并方块
+                        if (prevValue === 0 && value !== prevValue) {
+                            // 新方块出现
+                            cell.classList.add('tile-new');
+                            // 动画结束后移除类
+                            setTimeout(() => {
+                                cell.classList.remove('tile-new');
+                            }, 200);
+                        } else if (prevValue !== 0 && value !== prevValue && value === prevValue * 2) {
+                            // 合并方块
+                            cell.classList.add('tile-merged');
+                            // 动画结束后移除类
+                            setTimeout(() => {
+                                cell.classList.remove('tile-merged');
+                            }, 200);
+                        }
                     }
                 }
                 
